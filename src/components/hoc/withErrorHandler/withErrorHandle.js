@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from '../../UI/Modal/Modal'
 
-const withErrorHandler = (Wrapper) => {
+const withErrorHandler = (Wrapper,axios) => {
     return (props) => {
         return (
             <React.Fragment>
