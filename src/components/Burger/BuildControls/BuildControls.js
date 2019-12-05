@@ -21,6 +21,7 @@ const buildControls = (props) =>{
             {controls.map(ctrl => <BuildControl key={ctrl.label} label={ctrl.label} clickedAdd={props.clickedAdd} clickedRemove={props.clickedRemove} disabled={props.disableInfo[ctrl.type]} type={ctrl.type}/>)}
             <button className={classes.OrderButton}
             disabled={!props.purchasable}
+            onClick={props.purchasing}
             >ORDER NOW</button>
        </div>
     )
