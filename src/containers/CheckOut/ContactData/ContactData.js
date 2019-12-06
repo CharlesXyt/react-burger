@@ -16,7 +16,11 @@ class ContactData extends React.Component{
                     type:'text',
                     placeholder:'your name'
                 },
-                value:''
+                value:'',
+                validation:{
+                    required:true
+                },
+                valid:false
             },
             street:{
                 elementType:'input',
@@ -24,7 +28,11 @@ class ContactData extends React.Component{
                     type:'text',
                     placeholder:'your street'
                 },
-                value:''
+                value:'',
+                validation:{
+                    required:true
+                },
+                valid:false
             },
             zipcode:{
                 elementType:'input',
@@ -32,7 +40,11 @@ class ContactData extends React.Component{
                     type:'text',
                     placeholder:'your zipcode'
                 },
-                value:''
+                value:'',
+                validation:{
+                    required:true
+                },
+                valid:false
             },
             country:{
                 elementType:'input',
@@ -40,7 +52,11 @@ class ContactData extends React.Component{
                     type:'text',
                     placeholder:'your country'
                 },
-                value:''
+                value:'',
+                validation:{
+                    required:true
+                },
+                valid:false
             },
             email:{
                 elementType:'input',
@@ -48,7 +64,11 @@ class ContactData extends React.Component{
                     type:'email',
                     placeholder:'your email'
                 },
-                value:''
+                value:'',
+                validation:{
+                    required:true
+                },
+                valid:false
             },
             deliverMethod:{
                 elementType:'select',
@@ -58,18 +78,39 @@ class ContactData extends React.Component{
                         {value:'cheapest',displayValue:'Cheapest'}
                     ]
                 },
-                value:''
+                value:'',
+                valid:false
             }
         },
         loading:false   
     }
 
+
+    checkValidity = (value,rules) => {
+        let isValid = true
+        if(rules.required){
+            isValid = value.trim() !== '' && isValid
+        }
+        if(rules.minLength){
+            isValid = value.length >= minLength && isValid
+        }
+        if(rules.maxLength){
+            isValid = value.length <= maxLength && isValid
+        }
+        return isValid;
+    }
+
     orderHandler = (event) => {
         event.preventDefault();
         this.setState( { loading: true } );
+        const formData = {};
+        for(let formElementIdentifier in this.state.orderForm){
+            formData[formElementIdentifier] =this.state.orderForm[formElementIdentifier].value
+        }
         const order = {
             ingredients:this.props.ingredients,
             price:this.props.price,
+            orderData:formData
              
         }
         axios.post('/orders.json',order)
@@ -91,6 +132,7 @@ class ContactData extends React.Component{
             ...updatedForm[inputIdentifier]
         }
         updatedFormElement.value = event.target.value
+        updatedFormElement.valid = this.checkValidity(updatedFormElement.value,updatedFormElement.validation)
         updatedForm[inputIdentifier] = updatedFormElement
         this.setState({
             orderForm:updatedForm
@@ -108,10 +150,10 @@ class ContactData extends React.Component{
             })
         }
         let form = (
-            <form>
+            <form onSubmit={this.orderHandler}>
                 {formElementArray.map(el => (<Input changed={(event) => this.inputChangedHandler(event,el.id)} key={el.id} elementType={el.config.elementType} elementConfig={el.config.elementConfig} value={el.config.value} />))}
                 
-                <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
+                <Button btnType="Success">Order</Button>
             </form>
         );
         if (this.state.loading){
