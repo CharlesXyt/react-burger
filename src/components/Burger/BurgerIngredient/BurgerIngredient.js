@@ -1,12 +1,11 @@
 import React from 'react'
 import classes from './BurgerIngredient.module.css'
 
-import PropTypes from 'prop-types'
+
 
 
 const burgerIngrendient = (props) => {
     let ingredient = null;
-
 
     switch (props.type){
         case('bread-bottom'):
@@ -41,9 +40,7 @@ const burgerIngrendient = (props) => {
 }
 
 
-burgerIngrendient.PropTypes={
 
-};
 
 
 export default burgerIngrendient;
