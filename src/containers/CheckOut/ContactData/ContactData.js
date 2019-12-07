@@ -18,9 +18,12 @@ class ContactData extends React.Component{
                 },
                 value:'',
                 validation:{
-                    required:true
+                    required:true,
+                    minLength:3,
+                    maxLength:5
                 },
-                valid:false
+                valid:false,
+                touched:false
             },
             street:{
                 elementType:'input',
@@ -30,9 +33,12 @@ class ContactData extends React.Component{
                 },
                 value:'',
                 validation:{
-                    required:true
+                    required:true,
+                    minLength:3,
+                    maxLength:5
                 },
-                valid:false
+                valid:false,
+                touched:false
             },
             zipcode:{
                 elementType:'input',
@@ -42,9 +48,12 @@ class ContactData extends React.Component{
                 },
                 value:'',
                 validation:{
-                    required:true
+                    required:true,
+                    minLength:3,
+                    maxLength:5
                 },
-                valid:false
+                valid:false,
+                touched:false
             },
             country:{
                 elementType:'input',
@@ -54,9 +63,12 @@ class ContactData extends React.Component{
                 },
                 value:'',
                 validation:{
-                    required:true
+                    required:true,
+                    minLength:3,
+                    maxLength:5
                 },
-                valid:false
+                valid:false,
+                touched:false
             },
             email:{
                 elementType:'input',
@@ -66,9 +78,12 @@ class ContactData extends React.Component{
                 },
                 value:'',
                 validation:{
-                    required:true
+                    required:true,
+                    minLength:3,
+                    maxLength:5
                 },
-                valid:false
+                valid:false,
+                touched:false
             },
             deliverMethod:{
                 elementType:'select',
@@ -78,10 +93,11 @@ class ContactData extends React.Component{
                         {value:'cheapest',displayValue:'Cheapest'}
                     ]
                 },
-                value:'',
-                valid:false
+                value:'fastest',
+                valid:true,
             }
         },
+        formIsValid:false,
         loading:false   
     }
 
@@ -92,10 +108,10 @@ class ContactData extends React.Component{
             isValid = value.trim() !== '' && isValid
         }
         if(rules.minLength){
-            isValid = value.length >= minLength && isValid
+            isValid = value.length >= rules.minLength && isValid
         }
         if(rules.maxLength){
-            isValid = value.length <= maxLength && isValid
+            isValid = value.length <= rules.maxLength && isValid
         }
         return isValid;
     }
@@ -133,9 +149,15 @@ class ContactData extends React.Component{
         }
         updatedFormElement.value = event.target.value
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value,updatedFormElement.validation)
+        updatedFormElement.touched=true
         updatedForm[inputIdentifier] = updatedFormElement
+        let formIsValid = true
+        for (let inputIdentifierElement in updatedForm){
+            formIsValid = updatedForm[inputIdentifierElement].valid && formIsValid
+        }
         this.setState({
-            orderForm:updatedForm
+            orderForm:updatedForm,
+            formIsValid:formIsValid
         })
     }
 
@@ -151,9 +173,14 @@ class ContactData extends React.Component{
         }
         let form = (
             <form onSubmit={this.orderHandler}>
-                {formElementArray.map(el => (<Input changed={(event) => this.inputChangedHandler(event,el.id)} key={el.id} elementType={el.config.elementType} elementConfig={el.config.elementConfig} value={el.config.value} />))}
+                {formElementArray.map(el => (<Input 
+                shouldValidate={el.config.validation}
+                inValid={!el.config.valid}
+                touched={el.config.touched}
+                changed={(event) => this.inputChangedHandler(event,el.id)} key={el.id} elementType={el.config.elementType} elementConfig={el.config.elementConfig} value={el.config.value} />))}
                 
-                <Button btnType="Success">Order</Button>
+                <Button btnType="Success" disabled={!this.state.formIsValid}>Order</Button>
+                {this.state.formIsValid}
             </form>
         );
         if (this.state.loading){
