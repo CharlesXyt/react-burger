@@ -173,7 +173,12 @@ class ContactData extends React.Component{
                 shouldValidate={el.config.validation}
                 inValid={!el.config.valid}
                 touched={el.config.touched}
-                changed={(event) => this.inputChangedHandler(event,el.id)} key={el.id} elementType={el.config.elementType} elementConfig={el.config.elementConfig} value={el.config.value} />))}
+                changed={(event) => this.inputChangedHandler(event,el.id)} 
+                key={el.id} 
+                elementType={el.config.elementType} 
+                elementConfig={el.config.elementConfig} 
+                value={el.config.value} 
+                />))}
                 
                 <Button btnType="Success" disabled={!this.state.formIsValid}>Order</Button>
                 {this.state.formIsValid}

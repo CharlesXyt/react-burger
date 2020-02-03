@@ -8,3 +8,7 @@ export {
     purchaseInit,
     fetchAllOrders
 } from './order'
+
+export {
+    auth
+} from './auth'
