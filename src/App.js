@@ -3,11 +3,17 @@ import {connect} from 'react-redux'
 import * as actions from './components/store/actions/index'
 import Layout from './components/hoc/Layout/Layout'
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder'
-import CheckOut from './containers/CheckOut/CheckOut'
 import {Route,Switch,withRouter,Redirect} from 'react-router-dom'
-import Orders from './containers/Orders/Orders'
-import Auth from './containers/Auth/Auth'
 import Logout from './containers/Auth/Logout/Logout'
+
+
+const Orders = React.lazy(() => import('./containers/Orders/Orders'))
+const Auth = React.lazy(() => import('./containers/Auth/Auth'))
+const CheckOut = React.lazy(() => import('./containers/CheckOut/CheckOut'))
+
+
+
+
  
 class App extends React.Component {
   componentDidMount(){
@@ -30,6 +36,7 @@ class App extends React.Component {
           <Route path="/checkout" component={CheckOut} />
           <Route path="/orders" component={Orders} />
           <Route path="/logout" component={Logout} />
+          <Route path="/auth" component={Auth} />
           <Route path="/" exact component={BurgerBuilder} />
           <Redirect to="/"/>
         </Switch>
