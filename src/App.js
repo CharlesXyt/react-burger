@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,Suspense} from 'react';
 import {connect} from 'react-redux'
 import * as actions from './components/store/actions/index'
 import Layout from './components/hoc/Layout/Layout'
@@ -16,26 +16,31 @@ const CheckOut = React.lazy(() => import('./containers/CheckOut/CheckOut'))
 
  
 const App = props => {
-  componentDidMount(){
-    this.props.onTryAutoSignup();
-  }
+
+  
+  const {onTryAutoSignup,isAuthenticated} = props
+
+  useEffect(()=>{
+    onTryAutoSignup();
+  })
+  
 
   let routes = (
     <Switch>
-      <Route path="/auth" component={Auth} />
+      <Route path="/auth" render={() => <Auth/>} />
       <Route path="/" exact component={BurgerBuilder} />
       <Redirect to="/"/>
     </Switch>
     
   )
 
-  if(this.props.isAuthenticated){
+  if(isAuthenticated){
     routes = (
       <Switch>
-        <Route path="/checkout" component={CheckOut} />
-        <Route path="/orders" component={Orders} />
+        <Route path="/checkout" render={() => <CheckOut/>} />
+        <Route path="/orders" render={() => <Orders/>} />
         <Route path="/logout" component={Logout} />
-        <Route path="/auth" component={Auth} />
+        <Route path="/auth" render={() => <Auth/>} />
         <Route path="/" exact component={BurgerBuilder} />
         <Redirect to="/"/>
       </Switch>
@@ -45,7 +50,7 @@ const App = props => {
   return (
     <div>
         <Layout>
-          {routes}
+          <Suspense fallback={<p>loading....</p>}>{routes}</Suspense>
         </Layout>
     </div>
   );
