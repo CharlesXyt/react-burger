@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Suspense} from 'react';
 import {connect} from 'react-redux'
 import * as actions from './components/store/actions/index'
 import Layout from './components/hoc/Layout/Layout'
@@ -23,7 +23,7 @@ class App extends React.Component{
   render(){
     let routes = (
       <Switch>
-        <Route path="/auth" component={Auth} />
+        <Route path="/auth" render={(props) => <Auth {...props}/>} />
         <Route path="/" exact component={BurgerBuilder} />
         <Redirect to="/"/>
       </Switch>
@@ -33,10 +33,10 @@ class App extends React.Component{
     if(this.props.isAuthenticated){
       routes = (
         <Switch>
-          <Route path="/checkout" component={CheckOut} />
-          <Route path="/orders" component={Orders} />
+          <Route path="/checkout" render={(props) => <CheckOut {...props}/>}  />
+          <Route path="/orders" render={(props) => <Orders {...props}/>}  />
           <Route path="/logout" component={Logout} />
-          <Route path="/auth" component={Auth} />
+          <Route path="/auth" render={(props) => <Auth {...props}/>} />
           <Route path="/" exact component={BurgerBuilder} />
           <Redirect to="/"/>
         </Switch>
@@ -46,7 +46,10 @@ class App extends React.Component{
     return (
       <div>
           <Layout>
+            <Suspense fallback={<p>loading...</p>}>
             {routes}
+            </Suspense>
+            
           </Layout>
       </div>
     );
