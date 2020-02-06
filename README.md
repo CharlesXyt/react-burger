@@ -3,11 +3,11 @@
 
 This Burger Builder prject is a platform where clients can customerize their burgers and order burgers
 
-# Demo for this project : https://charlesxyt.github.io/burger/
+### Demo for this project : https://charlesxyt.github.io/burger/
 
 ## Branches
 
-# This project is divided into three branches:
+### This project is divided into three branches:
 
 master: using class based components to build this application
 gh-pages: deploy this application into github pages
