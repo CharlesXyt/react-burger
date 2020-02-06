@@ -10,8 +10,11 @@ This Burger Builder prject is a platform where clients can customerize their bur
 ### This project is divided into three branches:
 
 master: using class based components to build this application
+
 gh-pages: deploy this application into github pages
+
 react-hook: using functional components and react hooks to rebuild this application
+
 
 
 ## Available Scripts
