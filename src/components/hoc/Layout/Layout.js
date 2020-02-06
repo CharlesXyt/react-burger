@@ -1,48 +1,39 @@
-import React,{Component} from 'react'
+import React,{useState} from 'react'
 import classes from './Layout.module.css'
 import Toolbar from '../../Navigation/Toolbar/Toolbar'
 import SideDrawer from '../../Navigation/SideDrawer/SideDrawer'
 import {connect} from 'react-redux'
 
-class Layout extends Component{
+const Layout = props => {
 
-    constructor(props){
-        super(props)
-        this.state={
-            showSideDrawer:false
-        }
+
+    const [sideDrawerIsVisible,setSideDrawerIsVisible] = useState(false)
+
+    const sideDrawerClosedHandler = () =>{
+        setSideDrawerIsVisible(false);
     }
 
-    sideDrawerClosedHandler = () =>{
-        this.setState({
-            showSideDrawer:false
-        })
-    }
-
-    menuClickHandler = () => {
-        const oldState = this.state.showSideDrawer
-        this.setState({
-            showSideDrawer:!oldState
-        })
+    const menuClickHandler = () => {
+        setSideDrawerIsVisible(!sideDrawerIsVisible)
     }
 
 
-    render(){
-        return(
-            <React.Fragment>
-                <Toolbar 
-                isAuth={this.props.isAuthenticated}
-                clicked={this.menuClickHandler}/>
-                <SideDrawer 
-                isAuth={this.props.isAuthenticated}
-                open={this.state.showSideDrawer} 
-                closed={this.sideDrawerClosedHandler}/>
-                <main className={classes.Content}>
-                    {this.props.children}
-                </main>
-            </React.Fragment>
-        )
-    }
+
+    return(
+        <React.Fragment>
+            <Toolbar 
+            isAuth={props.isAuthenticated}
+            clicked={menuClickHandler}/>
+            <SideDrawer 
+            isAuth={props.isAuthenticated}
+            open={sideDrawerIsVisible} 
+            closed={sideDrawerClosedHandler}/>
+            <main className={classes.Content}>
+                {props.children}
+            </main>
+        </React.Fragment>
+    )
+
 }
     
 const mapStateToProps = () => state =>{
