@@ -1,8 +1,25 @@
-Demo for this project : https://charlesxyt.github.io/burger/
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
+
+This Burger Builder prject is a platform where clients can customerize their burgers and order burgers
+
+### Demo for this project : https://charlesxyt.github.io/burger/
+
+## Branches
+
+### This project is divided into three branches:
+
+master: using class based components to build this application
+
+gh-pages: deploy this application into github pages
+
+react-hook: using functional components and react hooks to rebuild this application
+
+
 
 ## Available Scripts
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 In the project directory, you can run:
 
